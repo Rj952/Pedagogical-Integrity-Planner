@@ -1,0 +1,1242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#003B5C" />
+<meta name="description" content="The Pedagogical Integrity Planner — a planning instrument for pedagogical sovereignty in AI-mediated learning. Caribbean-themed, accessible, high-contrast." />
+<meta name="author" content="Rohan Jowallah" />
+<title>The Pedagogical Integrity Planner — by Rohan Jowallah</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+  rel="stylesheet"
+/>
+
+<!-- Tailwind (CDN, fine for a single-file artifact) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- React + ReactDOM + Babel for in-browser JSX -->
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+
+<!-- Icons rendered inline (no external dependency) -->
+
+<style>
+/* ============================================================
+   Caribbean palette — WCAG AA+ verified
+   ============================================================
+   --sea-deep #003B5C  white text 13:1 AAA
+   --sea      #005F87  white text 7.4:1 AAA
+   --turquoise #00A8B5 dark text  AA large
+   --palm     #02753F  white text 5.5:1 AA
+   --sunshine #FFB700  dark text  12:1 AAA
+   --coral    #C8102E  white text 6.7:1 AAA (Trinidad red)
+   --hibiscus #B0185E  white text 7.2:1 AAA
+   --ink      #0A0E1A  on white  19:1 AAA
+   --ink-2    #2C3E50  on white  10:1 AAA
+   --sand     #FFF8E7  light surface
+   --surface  #F5FBFC  pale teal-white
+   --rule-strong #0A0E1A
+   --rule       #1F2937 (dark slate, ≥4.5:1 against white for borders)
+============================================================ */
+
+:root {
+  --sea-deep:  #003B5C;
+  --sea:       #005F87;
+  --turquoise: #00A8B5;
+  --palm:      #02753F;
+  --palm-deep: #014D29;
+  --sunshine:  #FFB700;
+  --sunshine-warm: #F59E0B;
+  --coral:     #C8102E;
+  --hibiscus:  #B0185E;
+  --ink:       #0A0E1A;
+  --ink-2:     #2C3E50;
+  --sand:      #FFF8E7;
+  --surface:   #F5FBFC;
+  --paper:     #FFFFFF;
+  --rule:      #1F2937;
+  --rule-soft: #94A3B8;
+  --focus:     #FFB700;
+}
+
+html, body, #root { background-color: var(--surface); }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.font-display { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; }
+.font-body { font-family: 'Inter', system-ui, sans-serif; }
+.font-mono-soft { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+/* ---------- Caribbean banded background ---------- */
+.caribbean-paper {
+  background-color: var(--surface);
+  background-image:
+    /* subtle wave at top */
+    radial-gradient(1200px 280px at 80% -150px, rgba(0,168,181,0.18), transparent 60%),
+    radial-gradient(900px 240px at 10% -120px, rgba(0,95,135,0.18), transparent 60%),
+    /* sun glow */
+    radial-gradient(600px 600px at 95% 100%, rgba(255,183,0,0.08), transparent 60%);
+}
+
+/* ---------- Inputs (high contrast) ---------- */
+.field-input {
+  background-color: var(--paper);
+  border: 2px solid var(--rule);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  border-radius: 6px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.field-input::placeholder { color: #6B7280; opacity: 1; }
+.field-input:hover { border-color: var(--sea-deep); }
+.field-input:focus-visible {
+  outline: none;
+  border-color: var(--sea-deep);
+  box-shadow: 0 0 0 4px var(--focus);
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+  background-color: var(--sea-deep);
+  color: #FFFFFF;
+  border: 2px solid var(--sea-deep);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-radius: 6px;
+  transition: background-color 150ms ease, transform 80ms ease, box-shadow 150ms ease;
+}
+.btn-primary:hover { background-color: var(--palm-deep); border-color: var(--palm-deep); }
+.btn-primary:active { transform: translateY(1px); }
+.btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--focus); }
+.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.btn-ghost {
+  background-color: var(--paper);
+  color: var(--ink);
+  border: 2px solid var(--rule);
+  font-weight: 600;
+  border-radius: 6px;
+  transition: border-color 150ms ease, color 150ms ease, background-color 150ms ease;
+}
+.btn-ghost:hover { border-color: var(--sea-deep); color: var(--sea-deep); background-color: var(--sand); }
+.btn-ghost:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--focus); border-color: var(--sea-deep); }
+
+/* ---------- Sliders ---------- */
+.slider-track {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(to right, var(--sea-deep) var(--pct, 50%), #D1D5DB var(--pct, 50%));
+  outline: none;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.slider-track:focus-visible { outline: 4px solid var(--focus); outline-offset: 4px; }
+.slider-track::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--sunshine);
+  border: 3px solid var(--ink);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(10,14,26,0.25);
+}
+.slider-track::-moz-range-thumb {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--sunshine);
+  border: 3px solid var(--ink);
+  cursor: pointer;
+}
+
+/* ---------- Pills ---------- */
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border: 2px solid var(--rule);
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background-color: var(--paper);
+}
+
+/* ---------- Dividers ---------- */
+.divider-rule {
+  height: 3px;
+  background: linear-gradient(to right, var(--sea-deep) 0%, var(--turquoise) 33%, var(--sunshine) 66%, var(--coral) 100%);
+  border-radius: 2px;
+}
+
+/* ---------- Score arc ---------- */
+.score-arc { transition: stroke-dashoffset 700ms cubic-bezier(.2,.8,.2,1); }
+
+/* ---------- Animations (with reduced-motion respect) ---------- */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.fade-up { animation: fadeUp 380ms cubic-bezier(.2,.8,.2,1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .fade-up { animation: none; }
+}
+
+/* ---------- Skip link ---------- */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  background: var(--ink);
+  color: #FFFFFF;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-weight: 700;
+  z-index: 100;
+  border: 3px solid var(--sunshine);
+}
+.skip-link:focus {
+  top: 1rem;
+  outline: none;
+}
+
+/* ---------- Theory option button focus ---------- */
+.theory-card { transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease; }
+.theory-card:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--focus); }
+.theory-card:hover { transform: translateY(-1px); }
+
+/* ---------- Print styles ---------- */
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; }
+  .caribbean-paper { background: #fff; }
+  pre { white-space: pre-wrap; word-wrap: break-word; }
+}
+
+/* ---------- High contrast mode ---------- */
+@media (prefers-contrast: more) {
+  .field-input { border-width: 3px; }
+  .btn-ghost { border-width: 3px; }
+  .btn-primary { border-width: 3px; }
+}
+</style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="root" role="application" aria-label="Pedagogical Integrity Planner"></div>
+
+  <script type="text/babel" data-presets="react">
+const { useState, useMemo, useEffect, useRef } = React;
+
+/* ------------------------------------------------------------------
+   Inline SVG icon set (Lucide-style strokes)
+   ------------------------------------------------------------------ */
+const ICON_PATHS = {
+  ChevronRight: <polyline points="9 18 15 12 9 6" />,
+  ChevronLeft:  <polyline points="15 18 9 12 15 6" />,
+  BookOpen: <g><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></g>,
+  Compass: <g><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></g>,
+  Scale: <g><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></g>,
+  Layers: <g><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></g>,
+  Eye: <g><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></g>,
+  ShieldCheck: <g><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></g>,
+  FileText: <g><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></g>,
+  AlertTriangle: <g><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></g>,
+  CheckCircle2: <g><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></g>,
+  Circle: <circle cx="12" cy="12" r="10"/>,
+  Printer: <g><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></g>,
+  Copy: <g><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></g>,
+  RotateCcw: <g><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></g>,
+};
+
+function Icon({ name, size = 18, strokeWidth = 2, style, className, title }) {
+  const path = ICON_PATHS[name] || ICON_PATHS.Circle;
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size} height={size}
+      viewBox="0 0 24 24"
+      fill="none" stroke="currentColor"
+      strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"
+      className={className}
+      style={{ display: "inline-block", verticalAlign: "middle", ...style }}
+      role={title ? "img" : undefined}
+      aria-hidden={title ? undefined : "true"}
+      aria-label={title}
+      focusable="false"
+    >
+      {title && <title>{title}</title>}
+      {path}
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------
+   Static content
+   ------------------------------------------------------------------ */
+const PEDAGOGICAL_THEORIES = [
+  { id: "behaviourism", name: "Behaviourism",
+    blurb: "Learning as observable change shaped by stimulus, response, reinforcement.",
+    risk: "high",
+    note: "Selecting this is honest — but means the tool is amplifying drill, not transforming pedagogy." },
+  { id: "cognitivism", name: "Cognitivism",
+    blurb: "Learning as internal mental processing — schemas, memory, metacognition.",
+    risk: "medium",
+    note: "Watch for AI doing the thinking the learner should be doing." },
+  { id: "constructivism", name: "Constructivism",
+    blurb: "Learners construct meaning through active engagement with materials and ideas.",
+    risk: "low",
+    note: "Often collapses into drill at point of use. Guard against this." },
+  { id: "social", name: "Social Constructivism",
+    blurb: "Knowledge built through dialogue, scaffolding, and participation in a community of meaning.",
+    risk: "low",
+    note: "AI must not replace human dialogue — it should provoke or enrich it." },
+  { id: "experiential", name: "Experiential Learning",
+    blurb: "Learning through cycles of experience, reflection, abstraction, experimentation.",
+    risk: "low",
+    note: "Reflection cycle is non-negotiable — it is how this theory works." },
+  { id: "community", name: "Communities of Practice",
+    blurb: "Learning as participation in shared practice with peripheral and full members.",
+    risk: "low",
+    note: "Ensure learners participate in real practice — not simulate it with AI." },
+];
+
+const STEPS = [
+  { id: 0, title: "Setup",   subtitle: "The lesson at hand", icon: "BookOpen" },
+  { id: 1, title: "Anchor",  subtitle: "Pedagogical theory", icon: "Compass" },
+  { id: 2, title: "Control", subtitle: "PCAI split",         icon: "Scale" },
+  { id: 3, title: "CRAFT",   subtitle: "AI architecture",    icon: "Layers" },
+  { id: 4, title: "CARE",    subtitle: "Engagement sequence",icon: "Eye" },
+  { id: 5, title: "ACRE",    subtitle: "Quality check",      icon: "ShieldCheck" },
+  { id: 6, title: "Plan",    subtitle: "Diagnostic & output",icon: "FileText" },
+];
+
+const initialData = () => ({
+  setup:   { title: "", subject: "", level: "", duration: "", outcome: "", aiTool: "" },
+  anchor:  { theoryId: "", justification: "" },
+  control: { teacherControl: 50, learnerControl: 50, teacherDecides: "", learnerDecides: "" },
+  craft:   { context: "", role: "", action: "", format: "", threshold: "" },
+  care:    { consider: "", analyse: "", reflect: "", evaluate: "" },
+  acre:    { accuracy: "", completeness: "", relevance: "", equity: "" },
+});
+
+/* ------------------------------------------------------------------
+   Diagnostic logic
+   ------------------------------------------------------------------ */
+function wordCount(s) { if (!s) return 0; return s.trim().split(/\s+/).filter(Boolean).length; }
+
+function computeDiagnostic(d) {
+  const flags = [];
+  const strengths = [];
+  let score = 0;
+
+  const setupFields = Object.values(d.setup).filter((v) => v && v.trim());
+  score += Math.min(8, setupFields.length * 1.4);
+
+  if (d.anchor.theoryId) {
+    score += 6;
+    if (wordCount(d.anchor.justification) >= 12) {
+      score += 6;
+      strengths.push("Pedagogical anchor is named and justified.");
+    } else {
+      flags.push({ level: "soft", text: "Theory chosen but justification is thin. A theory without rationale is a label, not a commitment." });
+    }
+  } else {
+    flags.push({ level: "hard", text: "No pedagogical theory named. Every AI use already sits inside a theory — name yours, or it will default to behaviourism." });
+  }
+
+  const tc = d.control.teacherControl;
+  const lc = d.control.learnerControl;
+  const balance = Math.abs(tc - lc);
+  if (d.control.teacherDecides && d.control.learnerDecides) {
+    score += 6;
+    if (balance <= 30) { score += 6; strengths.push("Teacher and learner control are intentionally split."); }
+    else if (lc < 30 && tc > 70) {
+      flags.push({ level: "hard", text: "Learner control is minimal. This is the configuration that collapses constructivist intent into behaviourist practice at the point of use." });
+      score += 1;
+    } else { score += 3; }
+    if (lc >= 50) { score += 4; strengths.push("Learner has substantive control over the AI interaction."); }
+  } else {
+    flags.push({ level: "soft", text: "Control split is not articulated. PCAI requires explicit decisions about who controls what." });
+  }
+
+  const craftFilled = Object.values(d.craft).filter((v) => v && wordCount(v) >= 4).length;
+  score += craftFilled * 2.4;
+  if (craftFilled === 5) strengths.push("CRAFT architecture is fully specified.");
+  if (d.craft.threshold && /pedagog|learn|reflect|reason|evidence|justif|equit/i.test(d.craft.threshold)) {
+    score += 1.5;
+    strengths.push("CRAFT threshold defines pedagogical sufficiency, not just task completion.");
+  } else if (d.craft.threshold) {
+    flags.push({ level: "soft", text: "CRAFT threshold reads like a task-completion check. A pedagogical threshold names what learning has occurred — not just what output exists." });
+  }
+
+  const careKeys = ["consider", "analyse", "reflect", "evaluate"];
+  let careFilled = 0; let careDeep = 0;
+  careKeys.forEach((k) => { const wc = wordCount(d.care[k]); if (wc >= 4) careFilled += 1; if (wc >= 15) careDeep += 1; });
+  score += careFilled * 3 + careDeep * 4;
+  if (careFilled === 4) strengths.push("All four CARE phases are present.");
+  if (!d.care.reflect || wordCount(d.care.reflect) < 4) {
+    flags.push({ level: "hard", text: "Reflection phase is absent or thin. Without learner reflection on AI output, the activity reduces to consumption." });
+  }
+  if (!d.care.evaluate || wordCount(d.care.evaluate) < 4) {
+    flags.push({ level: "hard", text: "Evaluation phase is absent. If learners do not evaluate the AI's output against criteria, the AI is the authority — not the learner." });
+  }
+
+  const acreKeys = ["accuracy", "completeness", "relevance", "equity"];
+  let acreFilled = 0;
+  acreKeys.forEach((k) => { if (d.acre[k] && wordCount(d.acre[k]) >= 4) acreFilled += 1; });
+  score += acreFilled * 3;
+  if (acreFilled === 4) strengths.push("ACRE quality dimensions are all addressed.");
+  if (!d.acre.equity || wordCount(d.acre.equity) < 4) {
+    flags.push({ level: "hard", text: "Equity is unaddressed. Sovereignty in AI-mediated learning fails the moment we treat equity as optional." });
+  }
+
+  if (d.anchor.theoryId && d.anchor.theoryId !== "behaviourism") {
+    if (lc < 30 && careFilled < 3) {
+      flags.push({ level: "hard", text: `Stated theory is "${PEDAGOGICAL_THEORIES.find((t) => t.id === d.anchor.theoryId)?.name}" but the design pattern is behaviourist. This is the exact collapse the framework warns against.` });
+    }
+  }
+
+  score = Math.max(0, Math.min(100, Math.round(score)));
+
+  let verdict; let verdictColor; let verdictBg;
+  if (score >= 80)      { verdict = "Pedagogically Sovereign";          verdictColor = "#014D29"; verdictBg = "#02753F"; }
+  else if (score >= 60) { verdict = "Pedagogically Aligned";            verdictColor = "#005F87"; verdictBg = "#005F87"; }
+  else if (score >= 40) { verdict = "At Risk of Behaviourist Collapse"; verdictColor = "#9A4A00"; verdictBg = "#C56E08"; }
+  else                  { verdict = "High Behaviourist Collapse Risk";  verdictColor = "#8B0A1F"; verdictBg = "#C8102E"; }
+
+  return { score, verdict, verdictColor, verdictBg, flags, strengths };
+}
+
+/* ------------------------------------------------------------------
+   UI primitives
+   ------------------------------------------------------------------ */
+const FieldLabel = ({ label, hint, required, htmlFor }) => (
+  <div className="mb-2">
+    <label htmlFor={htmlFor}
+      className="font-mono-soft block"
+      style={{ fontSize: "12px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ink)", fontWeight: 700 }}>
+      {label}
+      {required && <span style={{ color: "var(--coral)", marginLeft: "6px" }} aria-label="required">*</span>}
+    </label>
+    {hint && (
+      <p className="font-body mt-1.5" style={{ fontSize: "14px", color: "var(--ink-2)", lineHeight: 1.5 }}>
+        {hint}
+      </p>
+    )}
+  </div>
+);
+
+let inputIdCounter = 0;
+const useId = (prefix = "f") => useMemo(() => `${prefix}-${++inputIdCounter}`, []);
+
+const TextInput = ({ value, onChange, placeholder, ariaLabel, id }) => (
+  <input
+    id={id}
+    type="text"
+    value={value}
+    onChange={(e) => onChange(e.target.value)}
+    placeholder={placeholder}
+    aria-label={ariaLabel}
+    className="field-input w-full px-4 py-3"
+  />
+);
+
+const TextArea = ({ value, onChange, placeholder, rows = 3, ariaLabel, id }) => (
+  <textarea
+    id={id}
+    value={value}
+    onChange={(e) => onChange(e.target.value)}
+    placeholder={placeholder}
+    rows={rows}
+    aria-label={ariaLabel}
+    className="field-input w-full px-4 py-3 resize-y"
+  />
+);
+
+const SectionHeading = ({ eyebrow, title, lede }) => (
+  <header>
+    <span className="font-mono-soft block"
+      style={{ fontSize: "12px", letterSpacing: "0.18em", textTransform: "uppercase",
+               color: "var(--sea-deep)", fontWeight: 700, marginBottom: "12px" }}>
+      {eyebrow}
+    </span>
+    <h2 className="font-display"
+      style={{ fontSize: "clamp(28px, 4vw, 40px)", color: "var(--ink)",
+               fontVariationSettings: '"opsz" 144, "wght" 600',
+               letterSpacing: "-0.02em", lineHeight: 1.1, maxWidth: "680px" }}>
+      {title}
+    </h2>
+    {lede && (
+      <p className="font-body mt-4"
+        style={{ fontSize: "17px", color: "var(--ink-2)", lineHeight: 1.6, maxWidth: "680px" }}>
+        {lede}
+      </p>
+    )}
+  </header>
+);
+
+/* ------------------------------------------------------------------
+   Step components
+   ------------------------------------------------------------------ */
+const StepSetup = ({ data, update }) => {
+  const idTitle = useId("title"), idSubject = useId("subject"), idLevel = useId("level"),
+        idDuration = useId("dur"), idOutcome = useId("out"), idAi = useId("ai");
+  return (
+    <section className="fade-up" aria-labelledby="setup-h">
+      <SectionHeading eyebrow="01 — The Lesson"
+        title="What are you actually planning?"
+        lede="Before naming the AI, name the lesson. Pedagogy comes first." />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+        <div>
+          <FieldLabel htmlFor={idTitle} label="Lesson title" required />
+          <TextInput id={idTitle} value={data.title} onChange={(v) => update("title", v)} placeholder="e.g., Reading Persuasive Texts Critically" />
+        </div>
+        <div>
+          <FieldLabel htmlFor={idSubject} label="Subject area" />
+          <TextInput id={idSubject} value={data.subject} onChange={(v) => update("subject", v)} placeholder="e.g., Literacy / Year 9 English" />
+        </div>
+        <div>
+          <FieldLabel htmlFor={idLevel} label="Learner level" />
+          <TextInput id={idLevel} value={data.level} onChange={(v) => update("level", v)} placeholder="e.g., Form 4 / Grade 9 / Undergraduate" />
+        </div>
+        <div>
+          <FieldLabel htmlFor={idDuration} label="Duration" />
+          <TextInput id={idDuration} value={data.duration} onChange={(v) => update("duration", v)} placeholder="e.g., 60 minutes" />
+        </div>
+        <div className="md:col-span-2">
+          <FieldLabel htmlFor={idOutcome} label="Core learning outcome"
+            hint="One outcome. Verb-first. What will the learner be able to do?" required />
+          <TextArea id={idOutcome} value={data.outcome} onChange={(v) => update("outcome", v)}
+            placeholder="e.g., Identify rhetorical devices in a persuasive text and evaluate their ethical implications." />
+        </div>
+        <div className="md:col-span-2">
+          <FieldLabel htmlFor={idAi} label="AI tool under consideration" />
+          <TextInput id={idAi} value={data.aiTool} onChange={(v) => update("aiTool", v)}
+            placeholder="e.g., Claude / ChatGPT / a custom GPT" />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const StepAnchor = ({ data, update }) => {
+  const idJ = useId("just");
+  return (
+    <section className="fade-up" aria-labelledby="anchor-h">
+      <SectionHeading eyebrow="02 — Pedagogical Anchor"
+        title="Which learning theory is this lesson sitting inside?"
+        lede="Every AI use in a classroom already sits inside one of six pre-existing learning theories — whether the teacher names it or not. Yours will too. Name it before AI does it for you." />
+      <div className="mt-8 space-y-3" role="radiogroup" aria-label="Pedagogical theory options">
+        {PEDAGOGICAL_THEORIES.map((t) => {
+          const selected = data.theoryId === t.id;
+          const riskLabel = t.risk === "high" ? "High collapse risk"
+                           : t.risk === "medium" ? "Caution"
+                           : "Robust if defended";
+          const riskColor = selected
+            ? (t.risk === "high" ? "#FFC4B5" : "#E8F1F5")
+            : (t.risk === "high" ? "var(--coral)" : "var(--ink-2)");
+          return (
+            <button key={t.id}
+              role="radio"
+              aria-checked={selected}
+              onClick={() => update("theoryId", t.id)}
+              className="theory-card w-full text-left p-5 rounded-md"
+              style={{
+                backgroundColor: selected ? "var(--sea-deep)" : "var(--paper)",
+                border: `2px solid ${selected ? "var(--sea-deep)" : "var(--rule)"}`,
+                color: selected ? "#FFFFFF" : "var(--ink)",
+              }}>
+              <div className="flex items-start gap-4">
+                <div className="mt-1" aria-hidden="true">
+                  {selected
+                    ? <Icon name="CheckCircle2" size={22} style={{ color: "var(--sunshine)" }} />
+                    : <Icon name="Circle" size={22} style={{ color: "var(--rule)" }} />}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-baseline gap-3 flex-wrap">
+                    <h3 className="font-display"
+                      style={{ fontSize: "22px", fontVariationSettings: '"opsz" 24, "wght" 600',
+                               letterSpacing: "-0.01em" }}>
+                      {t.name}
+                    </h3>
+                    <span className="font-mono-soft" aria-label={`Risk: ${riskLabel}`}
+                      style={{ fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase",
+                               fontWeight: 700, color: riskColor }}>
+                      {t.risk === "high" ? "↯ " : ""}{riskLabel}
+                    </span>
+                  </div>
+                  <p className="font-body mt-2"
+                    style={{ fontSize: "15.5px", lineHeight: 1.55,
+                             color: selected ? "#E8F1F5" : "var(--ink-2)" }}>
+                    {t.blurb}
+                  </p>
+                  {selected && (
+                    <p className="font-body italic mt-3 pt-3"
+                      style={{ fontSize: "14.5px", lineHeight: 1.5, color: "#FFE89C",
+                               borderTop: "1px solid #1E5A7A" }}>
+                      {t.note}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+      {data.theoryId && (
+        <div className="mt-8 fade-up">
+          <FieldLabel htmlFor={idJ} label="Why this theory, for this learner, on this content?"
+            hint="A theory without a defended choice is a label. Defend yours." required />
+          <TextArea id={idJ} value={data.justification} onChange={(v) => update("justification", v)} rows={4}
+            placeholder="Because the learners are constructing meaning from primary sources for the first time, and the texts are culturally close to them, social constructivism..." />
+        </div>
+      )}
+    </section>
+  );
+};
+
+const StepControl = ({ data, update }) => {
+  const tc = data.teacherControl, lc = data.learnerControl;
+  const idTd = useId("td"), idLd = useId("ld");
+  return (
+    <section className="fade-up" aria-labelledby="control-h">
+      <SectionHeading eyebrow="03 — PCAI Control Split"
+        title="Who controls what?"
+        lede="The central PCAI move: split human control into teacher control and learner control. Then make the split deliberate." />
+      <div className="mt-10 space-y-10">
+        <div>
+          <div className="flex items-baseline justify-between mb-3">
+            <label htmlFor="teacher-slider" className="font-display"
+              style={{ fontSize: "18px", fontVariationSettings: '"opsz" 14, "wght" 600' }}>
+              Teacher control
+            </label>
+            <span className="font-mono-soft" aria-live="polite"
+              style={{ fontSize: "16px", color: "var(--sea-deep)", fontWeight: 700 }}>
+              {tc}%
+            </span>
+          </div>
+          <input id="teacher-slider" type="range" min="0" max="100" value={tc}
+            aria-valuemin={0} aria-valuemax={100} aria-valuenow={tc} aria-label="Teacher control percentage"
+            onChange={(e) => update("teacherControl", parseInt(e.target.value))}
+            className="slider-track" style={{ "--pct": `${tc}%` }} />
+          <p className="font-body mt-2" style={{ fontSize: "14px", color: "var(--ink-2)", lineHeight: 1.5 }}>
+            How much the teacher decides about goals, sequence, criteria, and acceptable AI use.
+          </p>
+        </div>
+        <div>
+          <div className="flex items-baseline justify-between mb-3">
+            <label htmlFor="learner-slider" className="font-display"
+              style={{ fontSize: "18px", fontVariationSettings: '"opsz" 14, "wght" 600' }}>
+              Learner control
+            </label>
+            <span className="font-mono-soft" aria-live="polite"
+              style={{ fontSize: "16px", color: "var(--sea-deep)", fontWeight: 700 }}>
+              {lc}%
+            </span>
+          </div>
+          <input id="learner-slider" type="range" min="0" max="100" value={lc}
+            aria-valuemin={0} aria-valuemax={100} aria-valuenow={lc} aria-label="Learner control percentage"
+            onChange={(e) => update("learnerControl", parseInt(e.target.value))}
+            className="slider-track" style={{ "--pct": `${lc}%` }} />
+          <p className="font-body mt-2" style={{ fontSize: "14px", color: "var(--ink-2)", lineHeight: 1.5 }}>
+            How much the learner decides about pace, prompts, follow-up questions, and what counts as a good answer.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <FieldLabel htmlFor={idTd} label="The teacher decides..."
+              hint="Name 2–3 things the teacher holds the line on." />
+            <TextArea id={idTd} value={data.teacherDecides} onChange={(v) => update("teacherDecides", v)}
+              placeholder="The texts under analysis, the criteria for evaluation, and which AI uses are off-limits." />
+          </div>
+          <div>
+            <FieldLabel htmlFor={idLd} label="The learner decides..."
+              hint="Name 2–3 things the learner has real authority over." />
+            <TextArea id={idLd} value={data.learnerDecides} onChange={(v) => update("learnerDecides", v)}
+              placeholder="Which prompts to try, when to ask follow-ups, and whether to accept or push back on the AI's answer." />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const CRAFT_FIELDS = [
+  { k: "context",   label: "Context",   hint: "What does the AI need to know about the learner, the content, and the moment?", placeholder: "Form 4 students in Jamaica, working on Garvey's 1923 speech..." },
+  { k: "role",      label: "Role",      hint: "What role should the AI play? (Not the learner's role — the AI's.)",          placeholder: "A skeptical reader who pushes back on weak arguments without revealing the answer." },
+  { k: "action",    label: "Action",    hint: "What is the AI being asked to do — concretely?",                                placeholder: "Ask three probing questions about my reading, then wait for me to respond." },
+  { k: "format",    label: "Format",    hint: "What shape should the AI's response take?",                                     placeholder: "Numbered questions, no answers. No more than 80 words." },
+  { k: "threshold", label: "Threshold", hint: "What counts as 'good enough' — pedagogically, not just technically?",           placeholder: "The questions should move me from description to interpretation." },
+];
+
+const StepCRAFT = ({ data, update }) => (
+  <section className="fade-up" aria-labelledby="craft-h">
+    <SectionHeading eyebrow="04 — CRAFT Architecture"
+      title="How is the AI being structured?"
+      lede="An AI without architecture is a vending machine. The CRAFT framework forces deliberate prompting — including the threshold of pedagogical sufficiency." />
+    <div className="mt-8 space-y-6">
+      {CRAFT_FIELDS.map((f) => {
+        const id = `craft-${f.k}`;
+        return (
+          <div key={f.k}>
+            <div className="flex items-baseline gap-3">
+              <span aria-hidden="true" className="font-display"
+                style={{ fontSize: "32px", color: "var(--coral)",
+                         fontVariationSettings: '"opsz" 144, "wght" 700', lineHeight: 1 }}>
+                {f.label[0]}
+              </span>
+              <FieldLabel htmlFor={id} label={f.label} hint={f.hint} />
+            </div>
+            <TextArea id={id} value={data[f.k]} onChange={(v) => update(f.k, v)} placeholder={f.placeholder} rows={2} />
+          </div>
+        );
+      })}
+    </div>
+  </section>
+);
+
+const CARE_FIELDS = [
+  { k: "consider", label: "Consider", prompt: "What does the learner consider before engaging the AI?",
+    hint: "What questions, prior knowledge, or framing does the learner bring? AI should not be the first move.",
+    placeholder: "Learners read the source text on their own and write three questions they would ask the author." },
+  { k: "analyse", label: "Analyse", prompt: "How does the learner analyse what the AI returns?",
+    hint: "What is the learner doing actively — not just receiving?",
+    placeholder: "Learners compare the AI's response against their own initial questions and identify what is missing." },
+  { k: "reflect", label: "Reflect", prompt: "Where does the learner stop and reflect?",
+    hint: "Reflection is not a footer. It is the moment the learner becomes the authority.",
+    placeholder: "Learners write a short note: what did the AI shift in my thinking, and what did I refuse to accept?" },
+  { k: "evaluate", label: "Evaluate", prompt: "How does the learner evaluate the AI's response against criteria?",
+    hint: "Without evaluation, the AI is the authority by default.",
+    placeholder: "Learners rate the AI response against the rubric and justify the rating in writing." },
+];
+
+const StepCARE = ({ data, update }) => (
+  <section className="fade-up" aria-labelledby="care-h">
+    <SectionHeading eyebrow="05 — CARE Engagement Sequence"
+      title="What do learners actually do?"
+      lede="Describe what the learner does at each phase — not what the AI does. If you cannot fill four phases of learner action, the AI is doing the learning." />
+    <ol className="mt-8 space-y-7" style={{ listStyle: "none", padding: 0 }}>
+      {CARE_FIELDS.map((f, idx) => {
+        const id = `care-${f.k}`;
+        return (
+          <li key={f.k} className="pl-6" style={{ borderLeft: "4px solid var(--turquoise)" }}>
+            <div className="flex items-baseline gap-4 mb-2">
+              <span className="font-mono-soft"
+                style={{ fontSize: "13px", color: "var(--palm-deep)", letterSpacing: "0.12em", fontWeight: 700 }}>
+                0{idx + 1}
+              </span>
+              <h3 className="font-display"
+                style={{ fontSize: "24px", fontVariationSettings: '"opsz" 24, "wght" 600', letterSpacing: "-0.01em" }}>
+                {f.label}
+              </h3>
+            </div>
+            <p className="font-body italic mb-3"
+              style={{ fontSize: "15.5px", color: "var(--ink-2)", lineHeight: 1.55 }}>
+              {f.prompt}
+            </p>
+            <p className="font-body mb-3"
+              style={{ fontSize: "13.5px", color: "var(--ink-2)", lineHeight: 1.5 }}>
+              {f.hint}
+            </p>
+            <TextArea id={id} value={data[f.k]} onChange={(v) => update(f.k, v)} placeholder={f.placeholder} rows={2}
+              ariaLabel={`${f.label} — ${f.prompt}`} />
+          </li>
+        );
+      })}
+    </ol>
+  </section>
+);
+
+const ACRE_FIELDS = [
+  { k: "accuracy",     label: "Accuracy",     hint: "How will accuracy be checked — and by whom?",                       placeholder: "Learners cross-reference one AI claim against a primary source." },
+  { k: "completeness", label: "Completeness", hint: "What is the AI likely to leave out, and how is that surfaced?",     placeholder: "Learners identify one perspective the AI omits and explain why it matters." },
+  { k: "relevance",    label: "Relevance",    hint: "How does the AI's response connect to the learner's actual context?", placeholder: "Learners rewrite the AI's general advice for their local Caribbean context." },
+  { k: "equity",       label: "Equity",       hint: "Who is centred, and who is missing from the AI's framing?",         placeholder: "Learners interrogate whose voice the AI defaults to, and whose is absent." },
+];
+
+const StepACRE = ({ data, update }) => (
+  <section className="fade-up" aria-labelledby="acre-h">
+    <SectionHeading eyebrow="06 — ACRE Quality Check"
+      title="What makes the AI output worth using?"
+      lede="Accuracy, Completeness, Relevance, Equity. Equity is not optional — it is the difference between sovereign learning and outsourced cognition." />
+    <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+      {ACRE_FIELDS.map((f) => {
+        const id = `acre-${f.k}`;
+        return (
+          <div key={f.k}>
+            <div className="flex items-baseline gap-3 mb-1">
+              <span aria-hidden="true" className="font-display"
+                style={{ fontSize: "36px",
+                         color: f.k === "equity" ? "var(--coral)" : "var(--palm)",
+                         fontVariationSettings: '"opsz" 144, "wght" 700', lineHeight: 1 }}>
+                {f.label[0]}
+              </span>
+              <FieldLabel htmlFor={id} label={f.label} hint={f.hint} />
+            </div>
+            <TextArea id={id} value={data[f.k]} onChange={(v) => update(f.k, v)} placeholder={f.placeholder} rows={3} />
+          </div>
+        );
+      })}
+    </div>
+  </section>
+);
+
+/* ------------------------------------------------------------------
+   Score dial + diagnostic
+   ------------------------------------------------------------------ */
+const ScoreDial = ({ score, color }) => {
+  const radius = 72;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (score / 100) * circumference;
+  return (
+    <div className="relative" style={{ width: 184, height: 184 }} role="img"
+         aria-label={`Pedagogical integrity score ${score} out of 100`}>
+      <svg width="184" height="184" viewBox="0 0 184 184" aria-hidden="true">
+        <circle cx="92" cy="92" r={radius} fill="none" stroke="#D1D5DB" strokeWidth="6" />
+        <circle cx="92" cy="92" r={radius} fill="none" stroke={color} strokeWidth="6"
+          strokeLinecap="round"
+          strokeDasharray={circumference} strokeDashoffset={offset}
+          transform="rotate(-90 92 92)" className="score-arc" />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="font-display"
+          style={{ fontSize: "60px", color: "var(--ink)",
+                   fontVariationSettings: '"opsz" 144, "wght" 600',
+                   lineHeight: 1, letterSpacing: "-0.04em" }}>
+          {score}
+        </span>
+        <span className="font-mono-soft mt-1"
+          style={{ fontSize: "11px", color: "var(--ink-2)",
+                   letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700 }}>
+          / 100
+        </span>
+      </div>
+    </div>
+  );
+};
+
+function buildPlanText(d, diag) {
+  const theoryName = PEDAGOGICAL_THEORIES.find((t) => t.id === d.anchor.theoryId)?.name || "[unspecified]";
+  const lines = [];
+  lines.push(`LESSON: ${d.setup.title || "[untitled]"}`);
+  lines.push(`OUTCOME: ${d.setup.outcome || "[unspecified]"}`);
+  lines.push(`AI TOOL: ${d.setup.aiTool || "[unspecified]"}`);
+  lines.push(``);
+  lines.push(`PEDAGOGICAL ANCHOR — ${theoryName}`);
+  if (d.anchor.justification) lines.push(`  ${d.anchor.justification}`);
+  lines.push(``);
+  lines.push(`PCAI CONTROL SPLIT`);
+  lines.push(`  Teacher control: ${d.control.teacherControl}%`);
+  lines.push(`  Learner control: ${d.control.learnerControl}%`);
+  if (d.control.teacherDecides) lines.push(`  Teacher decides: ${d.control.teacherDecides}`);
+  if (d.control.learnerDecides) lines.push(`  Learner decides: ${d.control.learnerDecides}`);
+  lines.push(``);
+  lines.push(`CRAFT — AI ARCHITECTURE`);
+  ["context","role","action","format","threshold"].forEach((k) => { if (d.craft[k]) lines.push(`  ${k[0].toUpperCase()+k.slice(1)}: ${d.craft[k]}`); });
+  lines.push(``);
+  lines.push(`CARE — LEARNER ENGAGEMENT SEQUENCE`);
+  ["consider","analyse","reflect","evaluate"].forEach((k) => { if (d.care[k]) lines.push(`  ${k[0].toUpperCase()+k.slice(1)}: ${d.care[k]}`); });
+  lines.push(``);
+  lines.push(`ACRE — QUALITY CHECK`);
+  ["accuracy","completeness","relevance","equity"].forEach((k) => { if (d.acre[k]) lines.push(`  ${k[0].toUpperCase()+k.slice(1)}: ${d.acre[k]}`); });
+  lines.push(``);
+  lines.push(`PEDAGOGICAL INTEGRITY: ${diag.score}/100 — ${diag.verdict}`);
+  lines.push(``);
+  lines.push(`Diagnostic grounded in the CARE, CRAFT, and ACRE frameworks`);
+  lines.push(`and the Pedagogical-Centred AI commitment to splitting human`);
+  lines.push(`control between teacher and learner.`);
+  lines.push(``);
+  lines.push(`— The Pedagogical Integrity Planner · developed by Rohan Jowallah`);
+  return lines.join("\n");
+}
+
+const StepDiagnostic = ({ data, diagnostic, onReset }) => {
+  const { score, verdict, verdictColor, verdictBg, flags, strengths } = diagnostic;
+  const [copied, setCopied] = useState(false);
+  const planText = useMemo(() => buildPlanText(data, diagnostic), [data, diagnostic]);
+
+  const copyPlan = async () => {
+    try { await navigator.clipboard.writeText(planText); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch {}
+  };
+
+  return (
+    <section className="fade-up" aria-labelledby="diag-h">
+      <SectionHeading eyebrow="07 — Diagnostic & Plan"
+        title="Where does this lesson sit?"
+        lede="Pedagogical integrity, scored against the patterns that distinguish transformative AI use from behaviourist drill in disguise." />
+
+      <div className="mt-10 p-8 rounded-md flex flex-col md:flex-row items-center md:items-start gap-8"
+        style={{ backgroundColor: "var(--paper)", border: `4px solid ${verdictBg}` }}>
+        <ScoreDial score={score} color={verdictBg} />
+        <div className="flex-1">
+          <span className="font-mono-soft"
+            style={{ fontSize: "12px", letterSpacing: "0.18em", textTransform: "uppercase",
+                     color: "var(--ink-2)", fontWeight: 700 }}>
+            Pedagogical Integrity Verdict
+          </span>
+          <h3 className="font-display mt-2"
+            style={{ fontSize: "clamp(26px, 4vw, 36px)", color: verdictColor,
+                     fontVariationSettings: '"opsz" 144, "wght" 700',
+                     letterSpacing: "-0.02em", lineHeight: 1.1 }}>
+            {verdict}
+          </h3>
+          <p className="font-body mt-4" style={{ fontSize: "16.5px", color: "var(--ink)", lineHeight: 1.6 }}>
+            {score >= 80 ? "This lesson plan demonstrates the deliberate pedagogical scaffolding that prevents AI from collapsing learning into stimulus and response. Hold the line."
+            : score >= 60 ? "The plan is on solid pedagogical ground but has soft spots where the AI could quietly take over the learning. Address the flags below."
+            : score >= 40 ? "Without revision, this lesson is likely to drift into the very behaviourist pattern the framework warns against — regardless of its stated theory."
+            : "As designed, this lesson positions the AI as the source of authority and the learner as the recipient. This is the precise collapse pedagogical sovereignty refuses."}
+          </p>
+        </div>
+      </div>
+
+      {strengths.length > 0 && (
+        <div className="mt-8" role="region" aria-label="Strengths">
+          <h4 className="font-mono-soft mb-3"
+            style={{ fontSize: "12px", letterSpacing: "0.18em", textTransform: "uppercase",
+                     color: "var(--palm-deep)", fontWeight: 700 }}>
+            Holding firm
+          </h4>
+          <ul className="space-y-2" style={{ listStyle: "none", padding: 0 }}>
+            {strengths.map((s, i) => (
+              <li key={i} className="font-body flex gap-3"
+                style={{ fontSize: "15.5px", color: "var(--ink)", lineHeight: 1.55 }}>
+                <span aria-hidden="true" style={{ flexShrink: 0, marginTop: 4 }}>
+                  <Icon name="CheckCircle2" size={18} style={{ color: "var(--palm)" }} />
+                </span>
+                <span>{s}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {flags.length > 0 && (
+        <div className="mt-8" role="region" aria-label="Issues to address">
+          <h4 className="font-mono-soft mb-3"
+            style={{ fontSize: "12px", letterSpacing: "0.18em", textTransform: "uppercase",
+                     color: "var(--coral)", fontWeight: 700 }}>
+            Where the line slips
+          </h4>
+          <ul className="space-y-3" style={{ listStyle: "none", padding: 0 }}>
+            {flags.map((f, i) => (
+              <li key={i} className="p-4 rounded-md flex gap-3"
+                style={{
+                  backgroundColor: f.level === "hard" ? "#FFF1F1" : "#FFF9E6",
+                  border: `2px solid ${f.level === "hard" ? "var(--coral)" : "var(--sunshine-warm)"}`,
+                }}>
+                <span aria-hidden="true" style={{ flexShrink: 0, marginTop: 2 }}>
+                  <Icon name="AlertTriangle" size={20}
+                    style={{ color: f.level === "hard" ? "var(--coral)" : "var(--sunshine-warm)" }} />
+                </span>
+                <span className="font-body" style={{ fontSize: "15.5px", color: "var(--ink)", lineHeight: 1.55 }}>
+                  <strong style={{ textTransform: "uppercase", fontSize: "11px", letterSpacing: "0.1em",
+                                   color: f.level === "hard" ? "var(--coral)" : "var(--sunshine-warm)",
+                                   marginRight: 8, fontFamily: "JetBrains Mono, monospace" }}>
+                    {f.level === "hard" ? "Critical" : "Soft"}
+                  </strong>
+                  {f.text}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="mt-12 divider-rule" role="presentation" />
+
+      <div className="mt-10">
+        <span className="font-mono-soft"
+          style={{ fontSize: "12px", letterSpacing: "0.18em", textTransform: "uppercase",
+                   color: "var(--ink-2)", fontWeight: 700 }}>
+          The Plan, Composed
+        </span>
+        <h3 className="font-display mt-3"
+          style={{ fontSize: "clamp(26px, 4vw, 36px)", color: "var(--ink)",
+                   fontVariationSettings: '"opsz" 144, "wght" 600', letterSpacing: "-0.02em" }}>
+          {data.setup.title || "Untitled Lesson"}
+        </h3>
+
+        <div className="flex flex-wrap gap-2 mt-4">
+          {data.setup.subject && <span className="tag-pill">{data.setup.subject}</span>}
+          {data.setup.level && <span className="tag-pill">{data.setup.level}</span>}
+          {data.setup.duration && <span className="tag-pill">{data.setup.duration}</span>}
+          {data.anchor.theoryId && (
+            <span className="tag-pill" style={{ borderColor: "var(--sea-deep)", color: "#FFFFFF", backgroundColor: "var(--sea-deep)" }}>
+              {PEDAGOGICAL_THEORIES.find((t) => t.id === data.anchor.theoryId)?.name}
+            </span>
+          )}
+        </div>
+
+        <div className="mt-8">
+          <pre className="font-body whitespace-pre-wrap p-6 rounded-md"
+            style={{ backgroundColor: "var(--paper)", border: "2px solid var(--rule)",
+                     fontSize: "15px", lineHeight: 1.65, color: "var(--ink)",
+                     fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}
+            tabIndex={0} aria-label="Generated lesson plan text">
+            {planText}
+          </pre>
+        </div>
+
+        <div className="flex flex-wrap gap-3 mt-6 no-print">
+          <button onClick={copyPlan} className="btn-ghost px-5 py-3 flex items-center gap-2"
+            style={{ fontSize: "15px" }} aria-live="polite">
+            <Icon name="Copy" size={16} />
+            {copied ? "Copied" : "Copy plan"}
+          </button>
+          <button onClick={() => window.print()} className="btn-ghost px-5 py-3 flex items-center gap-2"
+            style={{ fontSize: "15px" }}>
+            <Icon name="Printer" size={16} />
+            Print
+          </button>
+          <button onClick={onReset} className="btn-ghost px-5 py-3 flex items-center gap-2"
+            style={{ fontSize: "15px" }}>
+            <Icon name="RotateCcw" size={16} />
+            Plan another
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ------------------------------------------------------------------
+   Stepper
+   ------------------------------------------------------------------ */
+const Stepper = ({ step, onSelect }) => (
+  <nav className="flex flex-wrap gap-2 mb-10 no-print" aria-label="Planner progress">
+    {STEPS.map((s, i) => {
+      const active = i === step;
+      const done = i < step;
+      return (
+        <button key={s.id} onClick={() => onSelect(i)}
+          aria-current={active ? "step" : undefined}
+          className="flex items-center gap-2 px-3 py-2 rounded-md"
+          style={{
+            backgroundColor: active ? "var(--sea-deep)" : (done ? "var(--sand)" : "var(--paper)"),
+            color: active ? "#FFFFFF" : "var(--ink)",
+            border: `2px solid ${active ? "var(--sea-deep)" : (done ? "var(--palm)" : "var(--rule-soft)")}`,
+            fontWeight: 600,
+          }}>
+          <span className="font-mono-soft"
+            style={{ fontSize: "11px", letterSpacing: "0.08em", fontWeight: 700,
+                     opacity: active ? 1 : 0.85 }}>
+            0{i + 1}
+          </span>
+          <span className="font-display"
+            style={{ fontSize: "14.5px", fontVariationSettings: '"opsz" 14, "wght" 600' }}>
+            {s.title}
+          </span>
+          {done && (
+            <span aria-label="Completed" style={{ marginLeft: 2 }}>
+              <Icon name="CheckCircle2" size={14} style={{ color: "var(--palm)" }} />
+            </span>
+          )}
+        </button>
+      );
+    })}
+  </nav>
+);
+
+/* ------------------------------------------------------------------
+   Root
+   ------------------------------------------------------------------ */
+function PedagogicalIntegrityPlanner() {
+  const [step, setStep] = useState(0);
+  const [data, setData] = useState(initialData());
+  const updateSection = (section) => (key, value) =>
+    setData((d) => ({ ...d, [section]: { ...d[section], [key]: value } }));
+  const diagnostic = useMemo(() => computeDiagnostic(data), [data]);
+  const reset = () => { setData(initialData()); setStep(0); };
+
+  // Scroll to top when step changes for keyboard / screen reader users
+  const mainRef = useRef(null);
+  useEffect(() => {
+    if (mainRef.current) {
+      mainRef.current.focus({ preventScroll: true });
+      window.scrollTo({ top: mainRef.current.offsetTop - 24, behavior: "smooth" });
+    }
+  }, [step]);
+
+  const renderStep = () => {
+    switch (step) {
+      case 0: return <StepSetup   data={data.setup}   update={updateSection("setup")} />;
+      case 1: return <StepAnchor  data={data.anchor}  update={updateSection("anchor")} />;
+      case 2: return <StepControl data={data.control} update={updateSection("control")} />;
+      case 3: return <StepCRAFT   data={data.craft}   update={updateSection("craft")} />;
+      case 4: return <StepCARE    data={data.care}    update={updateSection("care")} />;
+      case 5: return <StepACRE    data={data.acre}    update={updateSection("acre")} />;
+      case 6: return <StepDiagnostic data={data} diagnostic={diagnostic} onReset={reset} />;
+      default: return null;
+    }
+  };
+
+  return (
+    <div className="caribbean-paper min-h-screen" style={{ color: "var(--ink)" }}>
+      <div className="max-w-5xl mx-auto px-5 md:px-10 py-10 md:py-16">
+        {/* Masthead */}
+        <header className="mb-10 md:mb-14">
+          <div className="flex items-baseline gap-3 mb-5">
+            <div aria-hidden="true" style={{ width: 36, height: 4, background: "linear-gradient(to right, var(--coral), var(--sunshine), var(--palm), var(--sea-deep))", borderRadius: 999 }} />
+            <span className="font-mono-soft"
+              style={{ fontSize: "12px", letterSpacing: "0.2em", textTransform: "uppercase",
+                       color: "var(--sea-deep)", fontWeight: 700 }}>
+              A Planning Instrument for Pedagogical Sovereignty
+            </span>
+          </div>
+          <h1 className="font-display"
+            style={{ fontSize: "clamp(40px, 7vw, 76px)",
+                     fontVariationSettings: '"opsz" 144, "wght" 600, "SOFT" 30',
+                     letterSpacing: "-0.035em", lineHeight: 0.98, color: "var(--ink)" }}>
+            The Pedagogical{" "}
+            <em style={{ fontStyle: "italic", color: "var(--coral)",
+                         fontVariationSettings: '"opsz" 144, "wght" 600' }}>
+              Integrity
+            </em>{" "}
+            Planner
+          </h1>
+
+          <p className="font-body mt-7"
+            style={{ fontSize: "18px", lineHeight: 1.65, color: "var(--ink)", maxWidth: "720px" }}>
+            <span className="font-display"
+              style={{ float: "left", fontSize: "3.4em", lineHeight: 0.85,
+                       margin: "0.05em 0.1em 0 0", color: "var(--sea-deep)",
+                       fontVariationSettings: '"opsz" 144, "wght" 700' }}>
+              E
+            </span>
+            very AI implementation in a classroom already sits inside a learning theory —
+            whether it is named or not. Tools designed with constructivist intent collapse
+            into behaviourist drill the moment they enter the lesson: stimulus, response,
+            reinforcement, passive learner. Pedagogical sovereignty is the discipline of
+            refusing that collapse. This instrument walks you through seven decisions that
+            determine whether your AI use will be transformation or theatre.
+          </p>
+
+          <div className="mt-8 flex flex-wrap items-center gap-2">
+            <span className="tag-pill" style={{ background: "var(--sea-deep)", color: "#FFFFFF", borderColor: "var(--sea-deep)" }}>PCAI · Pedagogical-Centred AI</span>
+            <span className="tag-pill" style={{ background: "var(--palm)", color: "#FFFFFF", borderColor: "var(--palm)" }}>CARE Framework</span>
+            <span className="tag-pill" style={{ background: "var(--coral)", color: "#FFFFFF", borderColor: "var(--coral)" }}>CRAFT Framework</span>
+            <span className="tag-pill" style={{ background: "var(--sunshine)", color: "var(--ink)", borderColor: "var(--ink)" }}>ACRE Framework</span>
+          </div>
+        </header>
+
+        <div className="divider-rule mb-10" role="presentation" />
+
+        <Stepper step={step} onSelect={setStep} />
+
+        <main id="main-content" ref={mainRef} tabIndex="-1" className="min-h-[420px]" style={{ outline: "none" }}>
+          {renderStep()}
+        </main>
+
+        {/* Step nav */}
+        {step < STEPS.length - 1 && (
+          <div className="mt-12 pt-8 flex items-center justify-between flex-wrap gap-4 no-print"
+            style={{ borderTop: "2px solid var(--rule-soft)" }}>
+            <button onClick={() => setStep((s) => Math.max(0, s - 1))} disabled={step === 0}
+              className="btn-ghost px-5 py-3 flex items-center gap-2" style={{ fontSize: "15px" }}
+              aria-label="Go to previous step">
+              <Icon name="ChevronLeft" size={16} />
+              Back
+            </button>
+            <span className="font-mono-soft hidden md:inline" aria-live="polite"
+              style={{ fontSize: "12px", letterSpacing: "0.18em", textTransform: "uppercase",
+                       color: "var(--ink-2)", fontWeight: 700 }}>
+              Step 0{step + 1} of 0{STEPS.length}
+            </span>
+            <button onClick={() => setStep((s) => Math.min(STEPS.length - 1, s + 1))}
+              className="btn-primary px-6 py-3 flex items-center gap-2" style={{ fontSize: "15px" }}
+              aria-label={step === STEPS.length - 2 ? "See diagnostic" : "Continue to next step"}>
+              {step === STEPS.length - 2 ? "See diagnostic" : "Continue"}
+              <Icon name="ChevronRight" size={16} />
+            </button>
+          </div>
+        )}
+
+        {/* Footer */}
+        <footer className="mt-20 pt-8" style={{ borderTop: "2px solid var(--rule-soft)" }}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <span className="font-mono-soft block mb-2"
+                style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase",
+                         color: "var(--sea-deep)", fontWeight: 700 }}>
+                The premise
+              </span>
+              <p className="font-body" style={{ fontSize: "14px", color: "var(--ink)", lineHeight: 1.55 }}>
+                Knowing a subject is not the same as knowing how to teach it. AI lacks
+                pedagogical intelligence by default — and so the pedagogical intelligence
+                must be designed in, deliberately, before the AI ever meets the learner.
+              </p>
+            </div>
+            <div>
+              <span className="font-mono-soft block mb-2"
+                style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase",
+                         color: "var(--coral)", fontWeight: 700 }}>
+                Frameworks
+              </span>
+              <p className="font-body" style={{ fontSize: "14px", color: "var(--ink)", lineHeight: 1.55 }}>
+                CARE (Consider · Analyse · Reflect · Evaluate). CRAFT (Context · Role ·
+                Action · Format · Threshold). ACRE (Accuracy · Completeness · Relevance ·
+                Equity).
+              </p>
+            </div>
+            <div>
+              <span className="font-mono-soft block mb-2"
+                style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase",
+                         color: "var(--palm-deep)", fontWeight: 700 }}>
+                Conviction
+              </span>
+              <p className="font-body italic" style={{ fontSize: "14px", color: "var(--ink)", lineHeight: 1.55 }}>
+                Sovereignty in AI-mediated learning is not just about who holds the data.
+                It is about whether the pedagogy holds the line.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-10 pt-6 flex flex-wrap items-center justify-between gap-3"
+            style={{ borderTop: "1px solid var(--rule-soft)" }}>
+            <span className="font-mono-soft"
+              style={{ fontSize: "11.5px", letterSpacing: "0.18em", textTransform: "uppercase",
+                       color: "var(--ink-2)", fontWeight: 700 }}>
+              Developed by <span style={{ color: "var(--sea-deep)" }}>Rohan Jowallah</span>
+            </span>
+            <span className="font-mono-soft"
+              style={{ fontSize: "11px", letterSpacing: "0.16em", textTransform: "uppercase",
+                       color: "var(--ink-2)" }}>
+              Caribbean palette · WCAG AA+ contrast · Keyboard-first
+            </span>
+          </div>
+        </footer>
+      </div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<PedagogicalIntegrityPlanner />);
+  </script>
+</body>
+</html>
